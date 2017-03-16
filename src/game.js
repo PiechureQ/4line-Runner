@@ -1,6 +1,7 @@
 
 //making game
 var game = new Phaser.Game(640, 480, Phaser.AUTO, 'gameDiv');
+var grounds;
 
 //adding all states to game
 game.state.add("boot", bootState);
