@@ -10,18 +10,17 @@ var playState = {
 		this.line = game.add.sprite(110 + space, 0, "line");
 		}
 
-		//var ground = createGround(1);
-		//createGround(3);
-		
-		//myśle jakaś grupa tych klocków by sie przydała i wtedy overlap z całą grupa sprawdzac i juz
-		this.ground = game.add.sprite(140, 0, "ground");
- 		game.physics.enable(this.ground, Phaser.Physics.arcade);
- 		this.ground.body.velocity.y = 100;
+		//creating group of objects to spawn over time
+		grounds = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
 		//set up player png
 		this.player = game.add.sprite(120, game.height - 110, "player");
-		game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
+		//defining hitbox
+		game.physics.enable(this.player, Phaser.Physics.ARCADE);
+		this.player.body.setSize(90, 10, 0, 10);
+
+		game.time.events.loop(200, createGround, this, 6);
 	},
 	update: function() {
 
@@ -38,7 +37,8 @@ var playState = {
 			this.player.body.x = 420;
 		}
 
-		game.physics.arcade.overlap(this.player, this.ground, this.end, null, this);
+		//checking for collisions and go to endState
+		game.physics.arcade.overlap(this.player, grounds, this.end, null, this);
 	},
 
 	end: function(){
@@ -46,15 +46,13 @@ var playState = {
 	}
 };
 
-/*
-function createGround(row, speed){
- 	var ground = game.add.sprite(140 + row * 100, 0, "ground");
- 	game.physics.enable(ground, Phaser.Physics.arcade);
- 	console.log(speed);
- 	if (speed == undefined){
- 		ground.body.velocity.y = 100;
+
+function createGround(speed){//spawning grounds with given speed
+ 	var x = grounds.create(40 + 100 * Math.floor((Math.random() * 4 ) + 1), 0, "ground");
+  	if (speed == undefined){
+ 		x.body.velocity.y = 100;
  	} else {
- 		ground.body.velocity.y = 100 * speed;
+ 		x.body.velocity.y = 100 * speed;
  	}
+ 	//musza sie usuwac bo zapychaja pamiec / przy kolizji z granica ekranu?
 }
-*/
