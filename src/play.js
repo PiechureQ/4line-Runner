@@ -13,28 +13,31 @@ var playState = {
 		//creating group of objects to spawn over time
 		grounds = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-		//set up player png
-		this.player = game.add.sprite(120, game.height - 110, "player");
+		//set up running player png
+		this.player = game.add.sprite(140, game.height - 110, "player");
+		this.player.animations.add("run");
+		this.player.animations.play("run", 16, true);
+		this.player.scale.setTo(2,2);
 
 		//defining hitbox
 		game.physics.enable(this.player, Phaser.Physics.ARCADE);
-		this.player.body.setSize(90, 10, 0, 10);
+		this.player.body.height = 10;
 
 		game.time.events.loop(200, createGround, this, 6);
 	},
 	update: function() {
 
 		if (this.keyboard.isDown(Phaser.Keyboard.D)) {
-			this.player.body.x = 120;
+			this.player.body.x = 140;
 		}
 		if (this.keyboard.isDown(Phaser.Keyboard.F)) {
-			this.player.body.x = 220;
+			this.player.body.x = 240;
 		}
 		if (this.keyboard.isDown(Phaser.Keyboard.J)) {
-			this.player.body.x = 320;
+			this.player.body.x = 340;
 		} 
 		if (this.keyboard.isDown(Phaser.Keyboard.K)) {
-			this.player.body.x = 420;
+			this.player.body.x = 440;
 		}
 
 		//checking for collisions and go to endState
